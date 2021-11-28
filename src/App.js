@@ -1,12 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import Layout from './components/layout';
+import { loadIcons } from './config/icon_loader';
 
-function App() {
+loadIcons();
+
+export default function App() {
   return (
-    <>
+
+    <Layout>
       
-    </>
+    </Layout>
   );
 }
-
-export default App;
