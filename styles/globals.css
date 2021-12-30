@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -13,4 +19,5 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: "EB Garamond", serif;
 }
