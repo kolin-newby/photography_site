@@ -6,10 +6,6 @@ export default function Gallery() {
 
   return (
     <div className="px-3 grid grid-cols-10 gap-3 w-full justify-self-center">
-      <div className="flex flex-col col-span-10 text-7xl items-center my-5">
-        <span className="flex">Frederick</span>
-        <span className="flex">& Backues</span>
-      </div>
       <img
         className="col-span-6 h-full object-cover rounded-sm"
         src="photos/KBN00261.jpg"

@@ -19,7 +19,6 @@ export default function Navbar() {
       path: "/",
       title: "Home",
     },
-    { path: "/about", title: "About" },
     { path: "/contact", title: "Contact" },
   ];
 
@@ -44,7 +43,7 @@ export default function Navbar() {
 
   const handleLinkClick = (e: any, path: any) => {
     e.preventDefault();
-    router.push(path);
+    router.push(path).catch(error => console.error(error));
   };
 
   return (
