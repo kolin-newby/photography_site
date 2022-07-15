@@ -1,1 +1,1 @@
-Frederick & Backues Photography site
+Pixelated Pilgrim Photography site
