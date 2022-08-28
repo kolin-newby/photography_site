@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 import { Transition } from '@headlessui/react'
 import Image, {StaticImageData} from "next/image";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -19,6 +19,26 @@ export default function ImageViewer({
     title: string
 }) {
 
+    const keyFunction = useCallback((event) => {
+        if (event.keyCode === 27) {
+            setOpen(false);
+        }
+        if (event.keyCode === 39 && open) {
+            nextImage();
+        }
+        if (event.keyCode === 37) {
+            previousImage();
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener("keydown", keyFunction, false);
+
+        return () => {
+            document.removeEventListener("keydown", keyFunction, false);
+        };
+    }, []);
+
     function nextImage() {
         if (imageIndex < (images.length - 1)) indexSetter(imageIndex + 1);
         else return;
@@ -32,10 +52,10 @@ export default function ImageViewer({
     return (
         <Transition
             show={open}
-            enter="transition-opacity duration-75"
+            enter="transition-opacity duration-200"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="transition-opacity duration-150"
+            leave="transition-opacity duration-350"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             className={"fixed flex justify-center items-center inset-0 z-50 selection-transparent backdrop-blur bg-gray-700 bg-opacity-40"}
@@ -50,16 +70,15 @@ export default function ImageViewer({
                     <div className={"flex px-3 cursor-pointer transition-all text-gray-500 hover:text-gray-800"} onClick={() => previousImage()}>
                         <FontAwesomeIcon icon={"caret-left"} size={"4x"}/>
                     </div>
-                    <div className={"relative flex"}>
+                    <div className={"flex"}>
                         <Image
                             src={images[imageIndex]}
                             alt={title}
-                            height={1080}
-                            width={1920}
+                            height={720}
+                            width={1280}
                             objectFit={"scale-down"}
                             placeholder={"blur"}
                             quality={100}
-                            className={"flex rounded-lg"}
                         />
                     </div>
                     <div className={"flex px-3 cursor-pointer transition-all text-gray-500 hover:text-gray-800"} onClick={() => nextImage()}>

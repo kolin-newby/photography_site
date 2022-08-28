@@ -6,6 +6,7 @@ import {
   faCaretLeft,
   faCaretRight,
   faCircle,
+  faStore,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Branded icon imports
@@ -21,5 +22,6 @@ export const loadIcons = () => {
     faCaretLeft,
     faCaretRight,
     faCircle,
+    faStore,
   );
 };
