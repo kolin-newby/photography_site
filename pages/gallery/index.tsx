@@ -18,6 +18,7 @@ export default function About() {
     return (
       <Layout title={"Gallery"}>
           <>
+              <div className={"h-5"}/>
               <div className="my-20 flex flex-wrap w-full justify-center items center space-x-10">
                   {photos.map((photo, index) => (
                       <img
@@ -29,7 +30,7 @@ export default function About() {
                               setViewedImageIndex(index);
                               setViewerOpen(true);
                           }}
-                          className={"flex object-contain h-96 rounded mb-10 shadow-lg transition-all " +
+                          className={"flex object-contain h-60 2x:h-96 rounded mb-10 shadow-lg transition-all " +
                               "transform hover:-translate-y-2 hover:shadow-2xl"}
                       />
                   ))}

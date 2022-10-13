@@ -46,12 +46,12 @@ export default function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 left-0 right-0 flex justify-between h-24 z-20 bg-white">
+    <div className="fixed top-0 left-0 right-0 flex justify-between h-18 z-20 bg-white py-2">
       <div className={"mx-8 flex flex-row justify-between w-full items-center"}>
         <span className={"flex group relative text-3xl font-bold"}>
           <a key={"home"} onClick={(e) => handleLinkClick(e, "/")} className={"z-10 cursor-pointer flex flex-col"}>
-            <span className={"flex"}>PIXEL</span>
-            <span className={"flex"}>PILGRIM</span>
+            <title className={"flex"}>PIXEL</title>
+            <title className={"flex"}>PILGRIM</title>
           </a>
           <div className={`${router.asPath === "/" ? "top-3/4 group-hover:top-0" : "top-full group-hover:top-3/4"} absolute inset-x-0 bottom-0 z-0 transition-all rounded-sm bg-gradient-to-r from-theme-green to-theme-blue`}/>
         </span>
@@ -59,12 +59,12 @@ export default function Navbar() {
           {navbarItems.map(({ path, title }) => (
             <div key={"nav-"+path} className={"group flex relative"}>
               <div className={`${router.asPath.startsWith(path) ? "top-3/4 group-hover:top-0" : "top-full group-hover:top-3/4"} absolute inset-x-0 bottom-0 z-0 transition-all rounded-sm bg-gradient-to-r from-theme-green to-theme-blue`}/>
-              <a
+              <title
                 className="flex text-2xl transition-all cursor-pointer z-10"
                 onClick={(e) => handleLinkClick(e, path)}
               >
                 {title}
-              </a>
+              </title>
             </div>
           ))}
         </span>
