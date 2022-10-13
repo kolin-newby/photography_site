@@ -1,34 +1,28 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { Transition } from '@headlessui/react'
-import Image, {StaticImageData} from "next/image";
+import {photos} from "./photos";
+import Image from "next/image";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default function ImageViewer({
-    indexSetter,
-    images,
     open,
     setOpen,
-    imageIndex,
-    title = ""
+    imageIndex
 }: {
-    indexSetter: Function,
-    images: StaticImageData[],
     open: boolean,
-    setOpen: Function
-    imageIndex: number,
-    title: string
+    setOpen: Function,
+    imageIndex: number
 }) {
+    const [localIndex, setLocalIndex] = useState(0);
+
+    useEffect(() => {
+        setLocalIndex(imageIndex);
+    }, [imageIndex])
 
     const keyFunction = useCallback((event) => {
-        if (event.keyCode === 27) {
-            setOpen(false);
-        }
-        if (event.keyCode === 39 && open) {
-            nextImage();
-        }
-        if (event.keyCode === 37) {
-            previousImage();
-        }
+        if (event.keyCode === 27) setOpen(false);
+        if (event.keyCode === 39) nextImage();
+        if (event.keyCode === 37) previousImage();
     }, []);
 
     useEffect(() => {
@@ -40,13 +34,17 @@ export default function ImageViewer({
     }, []);
 
     function nextImage() {
-        if (imageIndex < (images.length - 1)) indexSetter(imageIndex + 1);
-        else return;
+        setLocalIndex(
+            (localIndex + 1) % photos.length
+        )
     }
 
     function previousImage() {
-        if (imageIndex > 0) indexSetter(imageIndex - 1);
-        else return;
+        if (localIndex > 0) {
+            setLocalIndex((localIndex - 1) % photos.length);
+        } else if (localIndex === 0) {
+            setLocalIndex(photos.length - 1);
+        }
     }
 
     return (
@@ -58,9 +56,10 @@ export default function ImageViewer({
             leave="transition-opacity duration-350"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            className={"fixed flex justify-center items-center inset-0 z-50 selection-transparent backdrop-blur bg-gray-700 bg-opacity-40"}
+            className={"fixed flex justify-center items-center inset-0 z-50 selection-transparent backdrop-blur " +
+                "bg-gray-900 bg-opacity-90"}
         >
-            <div className={"flex flex-col items-center rounded-lg bg-white p-6"}>
+            <div className={"flex flex-col items-center rounded-lg bg-black bg-opacity-75 h-5/6 w-10/12 items-center justify-center"}>
                 <div className={"flex items-center justify-end w-full"}>
                     <div className={"cursor-pointer flex pr-1 transition-all text-gray-500 hover:text-gray-800"} onClick={() => setOpen(false)}>
                         <FontAwesomeIcon icon={"times"} size={"2x"}/>
@@ -72,12 +71,15 @@ export default function ImageViewer({
                     </div>
                     <div className={"flex"}>
                         <Image
-                            src={images[imageIndex]}
-                            alt={title}
+                            src={photos[localIndex].src}
+                            alt={photos[localIndex].title}
                             height={720}
                             width={1280}
-                            objectFit={"scale-down"}
+                            // layout={"fill"}
+                            objectFit={"contain"}
                             placeholder={"blur"}
+                            blurDataURL={photos[localIndex].src}
+                            priority={true}
                             quality={100}
                         />
                     </div>
@@ -87,12 +89,12 @@ export default function ImageViewer({
                 </div>
                 <span className={"flex space-x-3 pt-6"}>
                 {
-                    Array.from(Array(images.length).keys()).map((dotIndex) => (
+                    Array.from(Array(photos.length).keys()).map((dotIndex) => (
                         <FontAwesomeIcon
                             key={"indicator-" + dotIndex}
                             icon={"circle"}
-                            size={"sm"}
-                            className={dotIndex === imageIndex ? "text-gray-600" : "text-gray-300"}
+                            className={`flex cursor-pointer bg-clip-text bg-gradient-to-r from-theme-green to-theme-blue ${dotIndex === localIndex ? "text-transparent" : "text-gray-300"}`}
+                            onClick={() => setLocalIndex(dotIndex)}
                         />
                     ))
                 }
